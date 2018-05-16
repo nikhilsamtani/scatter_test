@@ -116,8 +116,9 @@ function drawViz(groupedDataArray) {
 			               .style("top", (d3.event.pageY-25) + "px");
 			    	  })
 			      .on("mouseout", function(d) {
-			          tooltip.transition()
-			               .duration(500)
+			          tooltip
+			          		//.transition()
+//			               .duration(500)
 			               .style("opacity", 0);
 			      });
 
