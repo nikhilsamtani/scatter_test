@@ -65,7 +65,6 @@ function drawViz(groupedDataArray) {
 	      .attr("x",(displayWidth+MARGIN_SIZE.left)/2)
 	      .attr("fill","grey")
 	      .attr("font-size","13px")
-	      .attr("font-weight","bold")
 	      .text("Year");
 
 	//y-axis
