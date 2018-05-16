@@ -93,7 +93,7 @@ function drawViz(groupedDataArray) {
 	//color scale
 	var cScale = d3.scale.category10().domain(types);
 
-	var rScale = d3.scale.linear().domain([0,400]).range([5,15])
+	var rScale = d3.scale.linear().domain([1,400]).range([1,40])
 
 	var tooltip = d3.select("body").append("div")
     	.attr("class", "tooltip")
