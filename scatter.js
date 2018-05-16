@@ -108,6 +108,9 @@ function drawViz(groupedDataArray) {
 	            .attr('fill-opacity', 0.6)
 	            .attr('r', d => rScale(d["funding"]))
 	            .on("mouseover", function(d) {
+	            	d3.select(this)
+	            		.attr("fill-opacity",0.2);
+
 	            	  tooltip.transition()
 			               .duration(200)
 			               .style("opacity", .9)
@@ -116,6 +119,8 @@ function drawViz(groupedDataArray) {
 			               .style("top", (d3.event.pageY-25) + "px");
 			    	  })
 			      .on("mouseout", function(d) {
+			         d3.select(this)
+	            		.attr("fill-opacity",0.6);
 			          tooltip
 			               .style("opacity", 0);
 			      });
