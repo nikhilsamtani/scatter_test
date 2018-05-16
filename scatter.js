@@ -158,6 +158,7 @@ d3.csv('scatter.csv', function(data) {
 	var groupingMenu = d3.select('#groupingMenu');
 
 	groupingMenu.on('change',function() {
+		d3.select('.tooltip').remove();
 		d3.select('#legend').remove();
 		d3.selectAll('circle').remove();
 		drawViz(groupByVariable(data, this.value));         
