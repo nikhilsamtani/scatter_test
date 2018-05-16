@@ -154,7 +154,6 @@ d3.csv('scatter.csv', function(data) {
 
 //	drawViz(groupByVariable(data, 'Income Group'));
 	var groupingMenu = d3.select('#groupingMenu');
-	drawViz(groupByVariable(data, 'Income Group'));         
 	groupingMenu.on('change',function() {
 		d3.select('.tooltip').remove();
 		d3.select('#legend').remove();
@@ -165,4 +164,4 @@ d3.csv('scatter.csv', function(data) {
 
 
 });
-  
+  	drawViz(groupByVariable(data, 'Income Group'));         
