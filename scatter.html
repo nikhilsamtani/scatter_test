@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+h1 {
+  font-family: Arial
+}
+.tooltip {
+  position: absolute;
+  width: 200px;
+  height: 28px;
+  pointer-events: none;
+  font-family: Calibri;
+  font-size: 12.5px;
+}
+text {
+  font-family: Calibri;
+}
+p {
+  font-family: Calibri;
+}
+.axis path {
+  fill: none;
+  stroke: grey;
+}
+.axis {
+  font-size: 12px
+}
+
+</style>
+</head>
+<body>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-legend/2.24.0/d3-legend.js"></script>
+    <h1 align="center">Global Non-communicable Disease Funding (2010-2015)</h1>
+    <table>
+    <tr>
+      <td>
+        <div align='center' id="figure1Container">
+      </td>
+      <td valign="top">
+            <p align="top"><b>Display funding by:</b> <select id='groupingMenu'>
+              <option selected disabled>Group By:</option>
+              <option value="Income Group">Income Group</option>
+              <option value="WHO Region">WHO Region</option>
+            </select></p>
+            <div align="center" id="legendContainer">
+      </td>
+    </tr>
+    </table>
+    <script src="scatter.js"></script>    
+    </div>
+</body>
+</html>
