@@ -89,7 +89,6 @@ function drawViz(groupedDataArray) {
 	      .attr("x",-(displayHeight+MARGIN_SIZE.bottom)/2-50)
 	   	  .attr("transform", "rotate(-90)")
 	      .attr("font-size","13px")
-	      .attr("font-weight","bold")
 	      .text("Funding (Million USD)");
 
 	//color scale
