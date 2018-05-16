@@ -27,7 +27,6 @@ function groupByVariable(data, variable) {
 	    	});
     	});
 
-    console.log(groupedDataArray)
     return groupedDataArray;
 }
 
