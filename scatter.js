@@ -9,7 +9,32 @@ var svg = d3.select('#figure1Container')
 		.attr('height', SVG_SIZE['height'])
 		.attr('width', SVG_SIZE['width'])
 
+var riskFactorMap = { 
+					1:'Tobacco',
+					2:'Physical Inactivity',
+					3:'Unhealthy Diet',
+					4:'Alcohol',
+					5:'Infection',
+					6:'Ageing',
+					7:'Obesity',
+					8:'Multiple Risk Factors',
+					'.':'Not applicable'
+					}
+
+function transformData(data) {
+			data = data.map(function(d) {
+						d['Risk F'] = riskFactorMap[d['Risk F']];
+						if(d['WHO Region'] == 'Not applicable')
+						{
+							d['WHO Region'] = 'World';
+						}
+						return d;
+						});
+	return data;
+}
+
 function groupByVariable(data, variable) {
+
 
 	var groupedData = d3.nest()
 						.key(function(d) { return d['YEAR']; })
@@ -22,7 +47,7 @@ function groupByVariable(data, variable) {
     Object.keys(groupedData).forEach(function(key) {
     	Object.keys(groupedData[key]).forEach(function(type){
     		if(type != 'Not applicable') {
-	    	groupedDataArray.push({"year":key,"type":type,"funding":groupedData[key][type]})    		    			
+		    	groupedDataArray.push({"year":key,"type":type,"funding":groupedData[key][type]})    		    			
     		}
 	    	});
     	});
@@ -50,7 +75,7 @@ function drawViz(groupedDataArray) {
 
 	var xScale = d3.scale.ordinal()
 	        .domain(years)
-	        .rangePoints([MARGIN_SIZE.left+20, displayWidth]);
+	        .rangePoints([MARGIN_SIZE.left+30, displayWidth]);
 
 	var xAxis = d3.svg.axis()
 					.scale(xScale)
@@ -67,9 +92,12 @@ function drawViz(groupedDataArray) {
 	      .attr("font-size","13px")
 	      .text("Year");
 
+
+	var yLimit = Math.max.apply(Math,groupedDataArray.map(function(d){return d["funding"];}))+50
+
 	//y-axis
 	var yScale = d3.scale.linear()
-	        .domain([0,200])
+	        .domain([0,yLimit])
 	        .range([displayHeight,MARGIN_SIZE.bottom]);
 
 	var yAxis = d3.svg.axis()
@@ -93,7 +121,7 @@ function drawViz(groupedDataArray) {
 	//color scale
 	var cScale = d3.scale.category10().domain(types);
 
-	var rScale = d3.scale.linear().domain([1,400]).range([1,40])
+	var rScale = d3.scale.linear().domain([1,400]).range([1,20])
 
 	var tooltip = d3.select("body").append("div")
     	.attr("class", "tooltip")
@@ -150,17 +178,16 @@ function drawViz(groupedDataArray) {
         .style("text-anchor", "start")
     	.text(function(d) { return d});
 
-
-
 }
 
 d3.csv('scatter.csv', function(data) {
 
-
-//	drawViz(groupByVariable(data, 'Income Group'));
+	data = transformData(data);
 	var groupingMenu = d3.select('#groupingMenu');
-	drawViz(groupByVariable(data, 'Income Group'));         
+	drawViz(groupByVariable(data, 'Funder Type'));         
+
 	groupingMenu.on('change',function() {
+		d3.select('.y.axis').remove();
 		d3.select('.tooltip').remove();
 		d3.select('#legend').remove();
 		d3.selectAll('circle').remove();
