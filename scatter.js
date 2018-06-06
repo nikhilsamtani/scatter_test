@@ -2,7 +2,7 @@ var SVG_SIZE = {width:700, height:480};
 var MARGIN_SIZE = {left:50, bottom:20, top:20, right:50};
 var displayWidth = SVG_SIZE.width - MARGIN_SIZE.left - MARGIN_SIZE.right; 
 var displayHeight = SVG_SIZE.height - MARGIN_SIZE.bottom - MARGIN_SIZE.top;
-var formatNumber = d3.format(",.2f");
+var formatNumber = d3.format(",.1f");
 
 var svg = d3.select('#figure1Container')
 		.append('svg')
@@ -24,9 +24,9 @@ var riskFactorMap = {
 function transformData(data) {
 			data = data.map(function(d) {
 						d['Risk F'] = riskFactorMap[d['Risk F']];
-						if(d['WHO Region'] == 'Not applicable')
+						if(d['WHO Region'] == 'Not applicable' || d['WHO Region'] == 'World')
 						{
-							d['WHO Region'] = 'World';
+							d['WHO Region'] = 'Unspecified';
 						}
 						return d;
 						});
@@ -88,7 +88,7 @@ function drawViz(groupedDataArray) {
 	     .append("text")
 	      .attr("y", 40)
 	      .attr("x",(displayWidth+MARGIN_SIZE.left)/2)
-	      .attr("fill","grey")
+	      .attr("fill","black")
 	      .attr("font-size","13px")
 	      .text("Year");
 
@@ -111,7 +111,7 @@ function drawViz(groupedDataArray) {
 	    .attr("transform", "translate(" + MARGIN_SIZE.left + ",0)")
 	    .call(yAxis)
 	    .append("text")
-	      .attr("fill","grey")
+	      .attr("fill","black")
 	      .attr("y",-40)
 	      .attr("x",-(displayHeight+MARGIN_SIZE.bottom)/2-50)
 	   	  .attr("transform", "rotate(-90)")
@@ -123,8 +123,8 @@ function drawViz(groupedDataArray) {
 
 	var rScale = d3.scale.linear().domain([1,400]).range([1,20])
 
-	var tooltip = d3.select("body").append("div")
-    	.attr("class", "tooltip")
+	var textOnHover = d3.select("body").append("div")
+    	.attr("class", "textOnHover")
     	.style("opacity", 0);
 
 	//draw circles
@@ -139,17 +139,17 @@ function drawViz(groupedDataArray) {
 	            	d3.select(this)
 	            		.attr("fill-opacity",0.2);
 
-	            	  tooltip.transition()
+	            	  textOnHover.transition()
 			               .duration(200)
 			               .style("opacity", .9)
-			          tooltip.html(d["type"] + ", " + "$" + formatNumber(d["funding"]) + "M")
+			          textOnHover.html(d["type"] + ", " + "$" + formatNumber(d["funding"]) + "M")
 			               .style("left", (d3.event.pageX) + "px")
 			               .style("top", (d3.event.pageY-25) + "px");
 			    	  })
 			      .on("mouseout", function(d) {
 			         d3.select(this)
 	            		.attr("fill-opacity",0.6);
-			          tooltip
+			          textOnHover
 			               .style("opacity", 0);
 			      });
 
@@ -188,13 +188,10 @@ d3.csv('scatter.csv', function(data) {
 
 	groupingMenu.on('change',function() {
 		d3.select('.y.axis').remove();
-		d3.select('.tooltip').remove();
+		d3.select('.textOnHover').remove();
 		d3.select('#legend').remove();
 		d3.selectAll('circle').remove();
 		drawViz(groupByVariable(data, this.value));         
 		});
 
-
-
 });
-  
